@@ -1,0 +1,9 @@
+[package]
+name = "stm8s-hal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+embedded-hal = "1.0.0"
+fugit = "0.3.7"
+stm8s-pac = {path = "./stm8s-pac"}
