@@ -6,6 +6,7 @@ pub use stm8s_pac as pac;
 pub mod gpio;
 pub mod clk;
 pub mod prelude;
+pub mod timer;
 
 
 /// Incapsulating unsafe steal inside

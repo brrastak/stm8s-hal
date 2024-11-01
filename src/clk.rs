@@ -93,6 +93,14 @@ impl Clk {
         }
     }
 
+    pub fn master_clk(&self) -> Hertz {
+        self.clocks.master_clk
+    }
+
+    pub fn cpu_clk(&self) -> Hertz {
+        self.clocks.cpu_clk
+    }
+
     pub(crate) fn _enable_hsi(&self) {
         self.swcr().modify(|_, w| w.swien().clear_bit().swen().set_bit());
         self.swr().write(|w| unsafe { w.bits(0xE1) });
