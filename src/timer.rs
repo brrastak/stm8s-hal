@@ -14,7 +14,7 @@ pub trait TimerExt<TIM> {
 
     /// Timer as delay provider.
     /// Master clock frequency should have one of the following values: 1, 2, 4, 8, 16 MHz
-    fn new(self, clk: &Clk) -> Self::Timer;
+    fn timer(self, clk: &Clk) -> Self::Timer;
 }
 
 pub struct Timer<TIM> {
@@ -26,7 +26,7 @@ Timer<TIM>: TimerBase {
 
     type Timer = Timer<Self>;
 
-    fn new(self, clk: &Clk) -> Timer<Self> {
+    fn timer(self, clk: &Clk) -> Timer<Self> {
         let new= Timer { tim: self };
         let psc_value = match clk.master_clk() / 1.MHz() as Hertz {
             1 => Prescaler::NotDivided,
