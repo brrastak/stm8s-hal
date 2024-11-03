@@ -9,6 +9,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "361a90feb7004eca4019fb28352a9465666b24f840f5c3cddf0ff13920590b89"
 
 [[package]]
+name = "embedded-io"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "edd0f118536f44f5ccd48bcb8b111bdc3de888b58c74639dfb034a357d0f206d"
+
+[[package]]
 name = "fugit"
 version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -28,8 +34,10 @@ name = "stm8s-hal"
 version = "0.1.0"
 dependencies = [
  "embedded-hal",
+ "embedded-io",
  "fugit",
  "stm8s-pac",
+ "switch-hal",
 ]
 
 [[package]]
@@ -37,6 +45,14 @@ name = "stm8s-pac"
 version = "0.1.0"
 dependencies = [
  "vcell",
+]
+
+[[package]]
+name = "switch-hal"
+version = "0.5.0"
+source = "git+https://github.com/rubberduck203/switch-hal.git?rev=refs/pull/12/head#67f038263aa85a8a547cc63660ae4d9c6499c930"
+dependencies = [
+ "embedded-hal",
 ]
 
 [[package]]

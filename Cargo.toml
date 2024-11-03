@@ -5,5 +5,7 @@ edition = "2021"
 
 [dependencies]
 embedded-hal = "1.0.0"
+embedded-io = "0.6.1"
 fugit = "0.3.7"
 stm8s-pac = {path = "./stm8s-pac"}
+switch-hal = {git = "https://github.com/rubberduck203/switch-hal.git", rev = "refs/pull/12/head"}

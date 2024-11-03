@@ -7,6 +7,7 @@ pub mod gpio;
 pub mod clk;
 pub mod prelude;
 pub mod timer;
+pub mod bitbang_uart;
 
 
 /// Incapsulating unsafe steal inside
