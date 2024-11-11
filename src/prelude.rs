@@ -10,7 +10,9 @@ pub use io::{
     Write,
 };
 
+pub use crate::bitbang_uart::*;
+pub use crate::adc::{AdcExt as _, Channel};
 pub use crate::clk::ClkExt as _;
 pub use crate::gpio::GpioExt as _;
 pub use crate::timer::TimerExt as _;
-pub use crate::bitbang_uart::*;
+pub use crate::uart::*;

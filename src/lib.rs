@@ -3,11 +3,13 @@
 
 pub use stm8s_pac as pac;
 
+pub mod bitbang_uart;
+pub mod adc;
 pub mod gpio;
 pub mod clk;
 pub mod prelude;
 pub mod timer;
-pub mod bitbang_uart;
+pub mod uart;
 
 
 /// Incapsulating unsafe steal inside
