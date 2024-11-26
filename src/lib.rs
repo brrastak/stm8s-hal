@@ -3,10 +3,11 @@
 
 pub use stm8s_pac as pac;
 
-pub mod bitbang_uart;
 pub mod adc;
-pub mod gpio;
+pub mod bitbang_uart;
 pub mod clk;
+pub mod gpio;
+pub mod iwdg;
 pub mod prelude;
 pub mod timer;
 pub mod uart;
