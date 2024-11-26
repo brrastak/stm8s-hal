@@ -6,28 +6,13 @@ use crate::pac::*;
 use crate::prelude::DelayNs;
 
 
-pub trait TimerExt<TIM> {
-    
-    /// Hardware timer for delay.
-    /// Set to the frequency of 1MHz
-    type Timer;
-
+impl<TIM> Timer<TIM> where 
+Timer<TIM>: TimerBase
+{
     /// Timer as delay provider.
     /// Master clock frequency should have one of the following values: 1, 2, 4, 8, 16 MHz
-    fn timer(self, clk: &Clk) -> Self::Timer;
-}
-
-pub struct Timer<TIM> {
-    tim: TIM,
-}
-
-impl<TIM> TimerExt<TIM> for TIM where 
-Timer<TIM>: TimerBase {
-
-    type Timer = Timer<Self>;
-
-    fn timer(self, clk: &Clk) -> Timer<Self> {
-        let new= Timer { tim: self };
+    pub fn new(tim: TIM, clk: &Clk) -> Self {
+        let new= Timer { tim };
         let psc_value = match clk.master_clk() / 1.MHz() as Hertz {
             1 => Prescaler::NotDivided,
             2 => Prescaler::Div2,
@@ -39,6 +24,7 @@ Timer<TIM>: TimerBase {
         new.set_psc(psc_value);
         new
     }
+    
 }
 
 impl<TIM> DelayNs for Timer<TIM> where 
@@ -64,7 +50,13 @@ Timer<TIM>: TimerBase {
     }
 }
 
-enum Prescaler {
+/// Hardware timer for delay.
+/// Set to the frequency of 1MHz
+pub struct Timer<TIM> {
+    tim: TIM,
+}
+
+pub enum Prescaler {
     NotDivided,
     Div2,
     Div4,
@@ -72,7 +64,7 @@ enum Prescaler {
     Div16,
 }
 
-trait TimerBase {
+pub trait TimerBase {
 
     /// Maximum value that can be stored in counter and reload registers
     fn max_base_value() -> u16;

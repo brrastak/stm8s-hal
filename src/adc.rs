@@ -8,37 +8,11 @@ use crate::gpio::*;
 use crate::pac::*;
 
 
-pub trait AdcExt<ADC> {
-    
-    /// Hardware ADC
-    type Adc;
+impl Adc<ADC1> {
 
     /// Create a new instance
-    fn adc(self, clk: &Clk) -> Self::Adc;
-}
-
-/// Internal bandgap reference voltage channel
-#[inline(always)]
-pub fn reference_channel() -> Channel {
-    Channel::C7
-}
-
-/// Internal bandgap reference voltage value in mV
-#[inline(always)]
-pub fn reference_value() -> u16 {
-    1220
-}
-
-pub struct Adc<ADC> {
-    adc: ADC,
-}
-
-impl AdcExt<ADC1> for ADC1 {
-
-    type Adc = Adc<Self>;
-
-    fn adc(self, clk: &Clk) -> Adc<Self> {
-        let new = Adc { adc: self };
+    pub fn new(adc: ADC1, clk: &Clk) -> Adc<ADC1> {
+        let new = Adc { adc };
 
         // Set ADC frequency: shall be in a range [1..4] MHz
         const DIV2: u8 = 0b000;
@@ -65,21 +39,6 @@ impl AdcExt<ADC1> for ADC1 {
 
         new
     }
-}
-
-/// Number of channel to read data
-pub enum Channel {
-    C0 = 0,
-    C1,
-    C2,
-    C3,
-    C4,
-    C5,
-    C6,
-    C7,
-}
-
-impl Adc<ADC1> {
     
     /// Read the value from dedicated channel == analog input
     pub fn read(&self, channel: Channel) -> u16 {
@@ -108,6 +67,35 @@ impl Adc<ADC1> {
         self.read(pin.channel())
     }
 
+}
+
+/// Number of channel to read data
+pub enum Channel {
+    C0 = 0,
+    C1,
+    C2,
+    C3,
+    C4,
+    C5,
+    C6,
+    C7,
+}
+
+/// Internal bandgap reference voltage channel
+#[inline(always)]
+pub fn reference_channel() -> Channel {
+    Channel::C7
+}
+
+/// Internal bandgap reference voltage value in mV
+#[inline(always)]
+pub fn reference_value() -> u16 {
+    1220
+}
+
+/// Hardware ADC
+pub struct Adc<ADC> {
+    adc: ADC,
 }
 
 pub trait AdcInput: InputPin {
