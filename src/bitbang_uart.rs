@@ -11,14 +11,9 @@ pub use embedded_io::{
 };
 pub use switch_hal::*;
 
+use crate::clk::*;
+use crate::uart::BaudRate;
 
-pub enum BaudRate {
-    Baud9600,
-    Baud19200,
-    Baud38400,
-    Baud57600,
-    Baud115200,
-}
 
 impl<TX, Timer, E> BitbangUart<TX, Timer>
 where
@@ -27,14 +22,19 @@ where
     Infallible: From<E>,
 {
     /// Create instance
-    pub fn new(tx: TX, timer: Timer, baudrate: BaudRate) -> Self {
-        let delay_us = match baudrate {
-            BaudRate::Baud9600 => 83,
-            BaudRate::Baud19200 => 42,
-            BaudRate::Baud38400 => 21,
-            BaudRate::Baud57600 => 14,
-            BaudRate::Baud115200 => 7,
+    pub fn new(tx: TX, timer: Timer, baudrate: BaudRate, clk: &Clk) -> Self {
+        let desired_delay_us = match baudrate {
+            BaudRate::Baud9600 => 104,
+            BaudRate::Baud19200 => 52,
+            BaudRate::Baud38400 => 26,
+            BaudRate::Baud57600 => 17,
+            BaudRate::Baud115200 => 9,
         };
+        // Consider time to switch pin, calculations etc.
+        // .to_MHz doesn't work for some reason
+        let added_delay_us = 128 / (clk.cpu_clk().to_Hz() / 1_000_000);
+        assert!(desired_delay_us >= added_delay_us);
+        let delay_us = desired_delay_us - added_delay_us;
         BitbangUart { tx, timer, delay_us }
     }
 
