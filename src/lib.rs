@@ -8,6 +8,7 @@ pub mod bitbang_uart;
 pub mod clk;
 pub mod gpio;
 pub mod iwdg;
+pub mod one_wire;
 pub mod prelude;
 pub mod timer;
 pub mod uart;
